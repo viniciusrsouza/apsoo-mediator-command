@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NoPattern.WebApi.Models;
 using NoPattern.WebApi.Repositories;
+using NoPattern.WebApi.Utils;
 
 namespace NoPattern.WebApi.Controllers
 {
@@ -40,6 +41,7 @@ namespace NoPattern.WebApi.Controllers
       var p = _repository.Create(person);
       if (p != null)
       {
+        NotificationHandler.OnCreatePerson(p);
         return Ok(p);
       }
       return BadRequest();
@@ -48,9 +50,13 @@ namespace NoPattern.WebApi.Controllers
     [HttpPut("")]
     public IActionResult Put(Person person)
     {
+      var old = _repository.Get(person.Id);
+      if (old == null) return NotFound();
+
       var p = _repository.Update(person);
       if (p != null)
       {
+        NotificationHandler.OnUpdatePerson(old, p);
         return Ok(p);
       }
       return NotFound();
@@ -62,6 +68,7 @@ namespace NoPattern.WebApi.Controllers
       var p = _repository.Delete(id);
       if (p != null)
       {
+        NotificationHandler.OnDeletePerson(p);
         return Ok(p);
       }
       return NotFound();
