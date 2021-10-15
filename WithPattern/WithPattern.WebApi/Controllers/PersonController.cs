@@ -5,16 +5,15 @@ using WithPattern.Domain.Entities;
 
 namespace WithPattern.WebApi.Controllers
 {
- 
-    [Route("people"
-    public class Pers
+    [ApiController]
+    [Route("people")]
     public class PersonController : ControllerBase
     {
         private readonly IMediator _mediator;
 
+        public PersonController(IMediator mediator)
         {
-        {
-          }
+            _mediator = mediator;
         }
 
         [HttpGet("")]
@@ -67,4 +66,5 @@ namespace WithPattern.WebApi.Controllers
             }
             return NotFound();
         }
-  }
+    }
+}
