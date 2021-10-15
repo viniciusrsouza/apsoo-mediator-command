@@ -1,13 +1,18 @@
-using Microsoft.OpenApi.Models;
+using MediatR;
+using WithPattern.Application.Repositories;
+using WithPattern.WebApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+var assembly = AppDomain.CurrentDomain.Load("WithPattern.Application");
+builder.Services.AddMediatR(assembly);
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() { Title = "WithPattern.WebApi", Version = "v1" });
+  c.SwaggerDoc("v1", new() { Title = "WithPattern.WebApi", Version = "v1" });
 });
 
 var app = builder.Build();
@@ -15,11 +20,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WithPattern.WebApi v1"));
+  app.UseSwagger();
+  app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WithPattern.WebApi v1"));
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

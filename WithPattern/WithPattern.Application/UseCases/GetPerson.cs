@@ -8,5 +8,10 @@ namespace WithPattern.Application.UseCases
   {
     [Required]
     public Guid Id { get; set; }
+
+    public GetPerson(Guid id)
+    {
+      Id = id;
+    }
   }
 }

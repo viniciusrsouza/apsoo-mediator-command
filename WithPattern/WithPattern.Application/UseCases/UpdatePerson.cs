@@ -6,7 +6,6 @@ namespace WithPattern.Application.UseCases
 {
   public class UpdatePerson : IRequest<Person>
   {
-    [Required]
     public Guid Id { get; set; }
     [MinLength(3)]
     [MaxLength(12)]
